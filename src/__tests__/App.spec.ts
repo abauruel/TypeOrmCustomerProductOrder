@@ -1,6 +1,11 @@
 import request from 'supertest';
 
-import { Connection, getConnection, getRepository } from 'typeorm';
+import {
+  Connection,
+  getConnection,
+  getRepository,
+  AdvancedConsoleLogger,
+} from 'typeorm';
 import createConnection from '@shared/infra/typeorm/index';
 
 import Product from '@modules/products/infra/typeorm/entities/Product';
@@ -87,7 +92,7 @@ describe('App', () => {
     );
   });
 
-  it('should not be able to create a customer with one e-mail thats already registered', async () => {
+  it('should not be able to create a product  already registered', async () => {
     const product = await request(app).post('/products').send({
       name: 'Produto 01',
       price: 500,

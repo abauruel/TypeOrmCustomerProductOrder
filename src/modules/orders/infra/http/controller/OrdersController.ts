@@ -4,13 +4,21 @@ import { container } from 'tsyringe';
 
 import CreateOrderService from '@modules/orders/services/CreateOrderService';
 import FindOrderService from '@modules/orders/services/FindOrderService';
+import { classToClass } from 'class-transformer';
 
 export default class OrdersController {
   public async show(request: Request, response: Response): Promise<Response> {
-    // TODO
+    const findOrderService = container.resolve(FindOrderService);
+    const { id } = request.params;
+    const order = await findOrderService.execute({ id });
+    return response.json(order);
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
-    // TODO
+    const createOrderService = container.resolve(CreateOrderService);
+    const { customer_id, products } = request.body;
+    const order = await createOrderService.execute({ customer_id, products });
+
+    return response.json(classToClass(order));
   }
 }
